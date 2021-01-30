@@ -54,7 +54,7 @@ class ViewController: UIViewController {
 let kMinWidth: CGFloat = 250.0
 let kInsetHorizontal: CGFloat = 64.0
 let kInsetVertical: CGFloat = 32.0
-let kShadowOffsetX: CGFloat = 3.0
+let kShadowOffsetX: CGFloat = 2.0
 let kTagFontSize: CGFloat = 9.0
 let kTagInset: CGFloat = 2.0
 let kTagShadowOffsetX: CGFloat = 2.0
@@ -161,6 +161,8 @@ final class CyberButton: UIButton {
         self.glitchButton = glitchButton
         glitchButton.isUserInteractionEnabled = false
 
+        glitchButton.layer.shadowOffset = CGSize(width: -kShadowOffsetX, height: kShadowOffsetX)
+
         glitchButton.titleLabel?.layer.shadowColor = kCyBlue.cgColor
         glitchButton.titleLabel?.layer.shadowOpacity = 1
         glitchButton.titleLabel?.layer.shadowRadius = 0
@@ -188,15 +190,19 @@ final class CyberButton: UIButton {
             super.bounds = newValue
             self.maskLayer.frame = newValue
 
-            let height = newValue.height + kTagBottomOffset
+            let pathInset: CGFloat = 10.0
+            let start = CGPoint(x: -pathInset, y: -pathInset)
+
+            let width = newValue.width + kShadowOffsetX + pathInset
+            let height = newValue.height + kTagBottomOffset + pathInset
 
             let path = CGMutablePath()
-            path.move(to: .zero)
-            path.addLine(to: CGPoint(x: newValue.width + kShadowOffsetX, y: 0))
-            path.addLine(to: CGPoint(x: newValue.width + kShadowOffsetX, y: height))
-            path.addLine(to: CGPoint(x: kInsetHorizontal/3, y: height))
-            path.addLine(to: CGPoint(x: 0, y: height - kInsetHorizontal/3))
-            path.addLine(to: .zero)
+            path.move(to: start)
+            path.addLine(to: CGPoint(x: width, y: -pathInset))
+            path.addLine(to: CGPoint(x: width, y: height))
+            path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
+            path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+            path.addLine(to: start)
 
             let shadowPath = CGMutablePath()
             shadowPath.move(to: .zero)
