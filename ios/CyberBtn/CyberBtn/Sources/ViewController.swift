@@ -60,6 +60,7 @@ let kTagInset: CGFloat = 2.0
 let kTagShadowOffsetX: CGFloat = 2.0
 let kTagBottomOffset: CGFloat = (kTagFontSize + kTagInset)/2
 let kGlitchTextShadowOffset: CGFloat = 2.0
+let kMaskPathInset: CGFloat = 10.0
 
 final class CyberButton: UIButton {
     private let maskLayer = CAShapeLayer()
@@ -198,103 +199,89 @@ final class CyberButton: UIButton {
             super.bounds = newValue
             self.maskLayer.frame = newValue
 
-            let pathInset: CGFloat = 10.0
-            let start = CGPoint(x: -pathInset, y: -pathInset)
+            self.layer.shadowPath = Self.createShadowPath(newValue)
+            self.maskLayer.path = Self.createMaskPath(newValue)
 
-            let width = newValue.width + kShadowOffsetX + pathInset
-            let height = newValue.height + kTagBottomOffset + pathInset
-
-            let path = CGMutablePath()
-            path.move(to: start)
-            path.addLine(to: CGPoint(x: width, y: -pathInset))
-            path.addLine(to: CGPoint(x: width, y: height))
-            path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
-            path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
-            path.addLine(to: start)
-
-            let shadowPath = CGMutablePath()
-            shadowPath.move(to: .zero)
-            shadowPath.addLine(to: CGPoint(x: newValue.width + kShadowOffsetX, y: 0))
-            shadowPath.addLine(to: CGPoint(x: newValue.width + kShadowOffsetX, y: newValue.height))
-            shadowPath.addLine(to: CGPoint(x: kInsetHorizontal/3, y: newValue.height))
-            shadowPath.addLine(to: CGPoint(x: 0, y: newValue.height - kInsetHorizontal/3))
-            shadowPath.addLine(to: .zero)
-
-            self.layer.shadowPath = shadowPath
-            self.maskLayer.path = path
-
-//            self.setGlitchMask1()
-//            self.setGlitchMask2()
-            self.setGlitchMask3()
+            if self.isGlitch {
+//                let glitchPath = Self.createGlitchMaskPath1(newValue)
+//                let glitchPath = Self.createGlitchMaskPath2(newValue)
+//                let glitchPath = Self.createGlitchMaskPath3(newValue)
+//                self.maskLayer.path = glitchPath
+            }
         }
     }
 
-    private func setGlitchMask1() {
-        guard self.isGlitch else {
-            return
-        }
-
-        let newValue = self.bounds
-
-        let pathInset: CGFloat = 10.0
-
-        let width = newValue.width + kShadowOffsetX + pathInset
-        let height = newValue.height + kTagBottomOffset + pathInset
+    private static func createMaskPath(_ bounds: CGRect) -> CGPath {
+        let width = bounds.width + kShadowOffsetX + kMaskPathInset
+        let height = bounds.height + kTagBottomOffset + kMaskPathInset
+        let start = CGPoint(x: -kMaskPathInset, y: -kMaskPathInset)
 
         let path = CGMutablePath()
-        path.move(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+        path.move(to: start)
+        path.addLine(to: CGPoint(x: width, y: -kMaskPathInset))
+        path.addLine(to: CGPoint(x: width, y: height))
+        path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
+        path.addLine(to: CGPoint(x: -kMaskPathInset, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: start)
+
+        return path
+    }
+
+    private static func createShadowPath(_ bounds: CGRect) -> CGPath {
+        let shadowPath = CGMutablePath()
+        shadowPath.move(to: .zero)
+        shadowPath.addLine(to: CGPoint(x: bounds.width + kShadowOffsetX, y: 0))
+        shadowPath.addLine(to: CGPoint(x: bounds.width + kShadowOffsetX, y: bounds.height))
+        shadowPath.addLine(to: CGPoint(x: kInsetHorizontal/3, y: bounds.height))
+        shadowPath.addLine(to: CGPoint(x: 0, y: bounds.height - kInsetHorizontal/3))
+        shadowPath.addLine(to: .zero)
+
+        return shadowPath
+    }
+
+    private static func createGlitchMaskPath1(_ bounds: CGRect) -> CGPath {
+        let width = bounds.width + kShadowOffsetX + kMaskPathInset
+        let height = bounds.height + kTagBottomOffset + kMaskPathInset
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -kMaskPathInset, y: height - kInsetHorizontal*2/3))
         path.addLine(to: CGPoint(x: width, y: height - kInsetHorizontal*2/3))
         path.addLine(to: CGPoint(x: width, y: height))
         path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
-        path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: CGPoint(x: -kMaskPathInset, y: height - kInsetHorizontal*2/3))
 
-        self.maskLayer.path = path
+        return path
     }
 
-    private func setGlitchMask2() {
-        guard self.isGlitch else {
-            return
-        }
-
-        let newValue = self.bounds
-
-        let pathInset: CGFloat = 10.0
-        let width = newValue.width + kShadowOffsetX + pathInset
-        let center = newValue.height / 2 + 4.0
+    private static func createGlitchMaskPath2(_ bounds: CGRect) -> CGPath {
+        let width = bounds.width + kShadowOffsetX + kMaskPathInset
+        let center = bounds.height / 2 + 4.0
         let visibleTextHeight: CGFloat = 4.0
-        let start = CGPoint(x: -pathInset, y: center - visibleTextHeight)
+        let start = CGPoint(x: -kMaskPathInset, y: center - visibleTextHeight)
 
         let path = CGMutablePath()
         path.move(to: start)
         path.addLine(to: CGPoint(x: width, y: center - visibleTextHeight))
         path.addLine(to: CGPoint(x: width, y: center + visibleTextHeight))
-        path.addLine(to: CGPoint(x: -pathInset, y: center + visibleTextHeight))
+        path.addLine(to: CGPoint(x: -kMaskPathInset, y: center + visibleTextHeight))
         path.addLine(to: start)
 
-        self.maskLayer.path = path
+        return path
     }
 
-    private func setGlitchMask3() {
-        guard self.isGlitch else {
-            return
-        }
-
-        let newValue = self.bounds
-
-        let pathInset: CGFloat = 10.0
-
-        let width = newValue.width + kShadowOffsetX + pathInset
-        let height = newValue.height + kTagBottomOffset + pathInset
+    private static func createGlitchMaskPath3(_ bounds: CGRect) -> CGPath {
+        let width = bounds.width + kShadowOffsetX + kMaskPathInset
+        let height = bounds.height + kTagBottomOffset + kMaskPathInset
         let center = height - kInsetHorizontal*2/3 - kInsetHorizontal*2/7
 
         let path = CGMutablePath()
-        path.move(to: CGPoint(x: -pathInset, y: center))
+        path.move(to: CGPoint(x: -kMaskPathInset, y: center))
         path.addLine(to: CGPoint(x: width, y: center))
         path.addLine(to: CGPoint(x: width, y: height))
         path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
-        path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
-        path.addLine(to: CGPoint(x: -pathInset, y: center))
+        path.addLine(to: CGPoint(x: -kMaskPathInset, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: CGPoint(x: -kMaskPathInset, y: center))
 
-        self.maskLayer.path = path
+        return path
     }
 }
