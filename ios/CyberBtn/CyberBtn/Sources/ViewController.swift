@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         view.backgroundColor = kCyYellow
 
         let button = CyberButton()
-        button.setTitle("Beginning_", for: .normal)
+        button.setTitle("Clipped_", for: .normal)
 
         view.addSubview(button)
 
@@ -35,6 +35,9 @@ class ViewController: UIViewController {
     }
 }
 
+let kMinWidth: CGFloat = 250.0
+let kInsetHorizontal: CGFloat = 64.0
+let kInsetVertical: CGFloat = 32.0
 let kShadowOfferX: CGFloat = 3.0
 
 final class CyberButton: UIButton {
@@ -51,8 +54,8 @@ final class CyberButton: UIButton {
         self.backgroundColor = kCyRed
 
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 250.0).isActive = true
-        self.contentEdgeInsets = UIEdgeInsets(top: 32.0, left: 64.0, bottom: 32.0, right: 64.0)
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: kMinWidth).isActive = true
+        self.contentEdgeInsets = UIEdgeInsets(top: kInsetVertical, left: kInsetHorizontal, bottom: kInsetVertical, right: kInsetHorizontal)
 
         self.layer.shadowColor = kCyBlue.cgColor
         self.layer.shadowOpacity = 1
@@ -77,7 +80,8 @@ final class CyberButton: UIButton {
             path.move(to: .zero)
             path.addLine(to: CGPoint(x: newValue.width + kShadowOfferX, y: 0))
             path.addLine(to: CGPoint(x: newValue.width + kShadowOfferX, y: newValue.height))
-            path.addLine(to: CGPoint(x: 0, y: newValue.height))
+            path.addLine(to: CGPoint(x: kInsetHorizontal / 3, y: newValue.height))
+            path.addLine(to: CGPoint(x: 0, y: newValue.height - kInsetHorizontal / 3))
             path.addLine(to: .zero)
 
             self.maskLayer.path = path.copy()
