@@ -6,6 +6,7 @@
 //
 
 import CoreGraphics
+import QuartzCore
 import UIKit
 
 let kCyYellow10 = UIColor(red: 255.0/255.0, green: 247/255.0, blue: 0, alpha: 1)
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
         view.layer.addSublayer(self.yellowGradientBackgroud)
 
         let button = CyberButton.create()
-        button.setTitle("Clipped_", for: .normal)
+        button.setTitle("Glitched_", for: .normal)
         button.setTag("R25")
 
         view.addSubview(button)
@@ -176,8 +177,6 @@ final class CyberButton: UIButton {
         glitchBlueTextShadow.shadowBlurRadius = 0
         glitchBlueTextShadow.shadowOffset = CGSize(width: kGlitchTextShadowOffset, height: kGlitchTextShadowOffset)
 
-        glitchButton.transform = CGAffineTransform(translationX: -4, y: -4)
-
         self.insertSubview(glitchButton, belowSubview: self.tagView)
 
         NSLayoutConstraint.activate([
@@ -199,14 +198,77 @@ final class CyberButton: UIButton {
             super.bounds = newValue
             self.maskLayer.frame = newValue
 
+
             self.layer.shadowPath = Self.createShadowPath(newValue)
-            self.maskLayer.path = Self.createMaskPath(newValue)
+
+
+            if !self.isGlitch {
+                self.maskLayer.path = Self.createMaskPath(newValue)
+            }
 
             if self.isGlitch {
-//                let glitchPath = Self.createGlitchMaskPath1(newValue)
-//                let glitchPath = Self.createGlitchMaskPath2(newValue)
-//                let glitchPath = Self.createGlitchMaskPath3(newValue)
-//                self.maskLayer.path = glitchPath
+                self.layer.removeAnimation(forKey: "glitchTransformAnim")
+                self.maskLayer.removeAnimation(forKey: "glitchMaskPathAnim")
+
+                let animMaskPath = CAKeyframeAnimation()
+                animMaskPath.keyPath = "path"
+                animMaskPath.values = [
+                    Self.createGlitchMaskPath1(newValue),
+                    Self.createGlitchMaskPath2(newValue),
+                    Self.createGlitchMaskPath3(newValue),
+                    Self.createGlitchMaskPath2(newValue),
+                    Self.createMaskPath(newValue),
+                    Self.createGlitchMaskPath2(newValue),
+                ]
+                let valuesCount: Double = Double((animMaskPath.values?.count ?? 1))
+                animMaskPath.keyTimes = [
+                    NSNumber(value: 0*1.0/valuesCount),
+                    NSNumber(value: 1*1.0/valuesCount),
+                    NSNumber(value: 2*1.0/valuesCount),
+                    NSNumber(value: 3*1.0/valuesCount),
+                    NSNumber(value: 3.3*1.0/valuesCount),
+                    NSNumber(value: 4*1.0/valuesCount),
+                ]
+
+                let translateAnim = CAKeyframeAnimation()
+                translateAnim.keyPath = "transform"
+                translateAnim.values = [
+                    CATransform3DMakeTranslation(-4, -4, 0),
+                    CATransform3DMakeTranslation(-8, -4, 0),
+                    CATransform3DMakeTranslation(4, -4, 0),
+                ]
+                translateAnim.keyTimes = [
+                    0,
+                    0.33,
+                    0.66,
+                ]
+
+                let beginTime = 0.0
+                let duration = 0.3
+                let repeatDelay = 1.0
+
+                animMaskPath.duration = duration
+                animMaskPath.beginTime = beginTime
+
+                translateAnim.beginTime = beginTime
+                translateAnim.duration = duration
+
+                let pathGroup = CAAnimationGroup()
+                pathGroup.animations = [animMaskPath]
+                pathGroup.beginTime = beginTime
+                pathGroup.duration = duration + repeatDelay
+                pathGroup.repeatCount = .infinity
+                pathGroup.autoreverses = true
+
+                let translateGroup = CAAnimationGroup()
+                translateGroup.animations = [translateAnim]
+                translateGroup.beginTime = beginTime
+                translateGroup.duration = duration + repeatDelay
+                translateGroup.repeatCount = .infinity
+                translateGroup.autoreverses = true
+
+                self.maskLayer.add(pathGroup, forKey: "glitchMaskPathAnim")
+                self.layer.add(translateGroup, forKey: "glitchTransformAnim")
             }
         }
     }
