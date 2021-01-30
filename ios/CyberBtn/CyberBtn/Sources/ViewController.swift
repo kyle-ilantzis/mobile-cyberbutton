@@ -66,6 +66,7 @@ final class CyberButton: UIButton {
 
     private let tagLabel = UILabel()
     private let tagView = UIView()
+    private var isGlitch: Bool = false
     private var glitchButton: CyberButton?
 
     required init?(coder: NSCoder) {
@@ -160,6 +161,7 @@ final class CyberButton: UIButton {
     private func addGlitch(_ glitchButton: CyberButton) {
         self.glitchButton = glitchButton
         glitchButton.isUserInteractionEnabled = false
+        glitchButton.isGlitch = true
 
         glitchButton.layer.shadowOffset = CGSize(width: -kShadowOffsetX, height: kShadowOffsetX)
 
@@ -173,6 +175,8 @@ final class CyberButton: UIButton {
         glitchBlueTextShadow.shadowBlurRadius = 0
         glitchBlueTextShadow.shadowOffset = CGSize(width: kGlitchTextShadowOffset, height: kGlitchTextShadowOffset)
 
+        glitchButton.transform = CGAffineTransform(translationX: -4, y: -4)
+
         self.insertSubview(glitchButton, belowSubview: self.tagView)
 
         NSLayoutConstraint.activate([
@@ -182,6 +186,10 @@ final class CyberButton: UIButton {
             glitchButton.topAnchor.constraint(equalTo: self.topAnchor),
             glitchButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
 
     override var bounds: CGRect {
@@ -214,6 +222,79 @@ final class CyberButton: UIButton {
 
             self.layer.shadowPath = shadowPath
             self.maskLayer.path = path
+
+//            self.setGlitchMask1()
+//            self.setGlitchMask2()
+            self.setGlitchMask3()
         }
+    }
+
+    private func setGlitchMask1() {
+        guard self.isGlitch else {
+            return
+        }
+
+        let newValue = self.bounds
+
+        let pathInset: CGFloat = 10.0
+
+        let width = newValue.width + kShadowOffsetX + pathInset
+        let height = newValue.height + kTagBottomOffset + pathInset
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: CGPoint(x: width, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: CGPoint(x: width, y: height))
+        path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
+        path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+
+        self.maskLayer.path = path
+    }
+
+    private func setGlitchMask2() {
+        guard self.isGlitch else {
+            return
+        }
+
+        let newValue = self.bounds
+
+        let pathInset: CGFloat = 10.0
+        let width = newValue.width + kShadowOffsetX + pathInset
+        let center = newValue.height / 2 + 4.0
+        let visibleTextHeight: CGFloat = 4.0
+        let start = CGPoint(x: -pathInset, y: center - visibleTextHeight)
+
+        let path = CGMutablePath()
+        path.move(to: start)
+        path.addLine(to: CGPoint(x: width, y: center - visibleTextHeight))
+        path.addLine(to: CGPoint(x: width, y: center + visibleTextHeight))
+        path.addLine(to: CGPoint(x: -pathInset, y: center + visibleTextHeight))
+        path.addLine(to: start)
+
+        self.maskLayer.path = path
+    }
+
+    private func setGlitchMask3() {
+        guard self.isGlitch else {
+            return
+        }
+
+        let newValue = self.bounds
+
+        let pathInset: CGFloat = 10.0
+
+        let width = newValue.width + kShadowOffsetX + pathInset
+        let height = newValue.height + kTagBottomOffset + pathInset
+        let center = height - kInsetHorizontal*2/3 - kInsetHorizontal*2/7
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -pathInset, y: center))
+        path.addLine(to: CGPoint(x: width, y: center))
+        path.addLine(to: CGPoint(x: width, y: height))
+        path.addLine(to: CGPoint(x: kInsetHorizontal*2/3, y: height))
+        path.addLine(to: CGPoint(x: -pathInset, y: height - kInsetHorizontal*2/3))
+        path.addLine(to: CGPoint(x: -pathInset, y: center))
+
+        self.maskLayer.path = path
     }
 }
