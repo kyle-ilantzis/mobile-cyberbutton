@@ -4,7 +4,8 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Blender-Pro-Bold.otf</string>
+		<string>BlenderPro-Bold.ttf</string>
+		<string>BlenderPro-Heavy.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

@@ -12,7 +12,8 @@
 		2779406225C505FA00D29E3B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2779406125C505FA00D29E3B /* ViewController.swift */; };
 		2779406725C505FB00D29E3B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2779406625C505FB00D29E3B /* Assets.xcassets */; };
 		2779406A25C505FB00D29E3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2779406825C505FB00D29E3B /* LaunchScreen.storyboard */; };
-		2779407825C5082400D29E3B /* Blender-Pro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2779407725C5082400D29E3B /* Blender-Pro-Bold.otf */; };
+		2779407C25C5139000D29E3B /* BlenderPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2779407B25C5139000D29E3B /* BlenderPro-Bold.ttf */; };
+		2779407F25C5139B00D29E3B /* BlenderPro-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2779407E25C5139B00D29E3B /* BlenderPro-Heavy.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +24,8 @@
 		2779406625C505FB00D29E3B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2779406925C505FB00D29E3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2779406B25C505FB00D29E3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2779407725C5082400D29E3B /* Blender-Pro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Blender-Pro-Bold.otf"; sourceTree = "<group>"; };
+		2779407B25C5139000D29E3B /* BlenderPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BlenderPro-Bold.ttf"; sourceTree = "<group>"; };
+		2779407E25C5139B00D29E3B /* BlenderPro-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BlenderPro-Heavy.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +70,8 @@
 				2779406625C505FB00D29E3B /* Assets.xcassets */,
 				2779406825C505FB00D29E3B /* LaunchScreen.storyboard */,
 				2779406B25C505FB00D29E3B /* Info.plist */,
-				2779407725C5082400D29E3B /* Blender-Pro-Bold.otf */,
+				2779407B25C5139000D29E3B /* BlenderPro-Bold.ttf */,
+				2779407E25C5139B00D29E3B /* BlenderPro-Heavy.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -141,8 +144,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2779406A25C505FB00D29E3B /* LaunchScreen.storyboard in Resources */,
-				2779407825C5082400D29E3B /* Blender-Pro-Bold.otf in Resources */,
+				2779407C25C5139000D29E3B /* BlenderPro-Bold.ttf in Resources */,
 				2779406725C505FB00D29E3B /* Assets.xcassets in Resources */,
+				2779407F25C5139B00D29E3B /* BlenderPro-Heavy.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

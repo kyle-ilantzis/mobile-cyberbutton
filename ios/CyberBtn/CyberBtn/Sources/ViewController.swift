@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         view.backgroundColor = kCyYellow
 
         let button = CyberButton()
-        button.setTitle("Beginning_", for: .normal)
+        button.setTitle("Beginning_".uppercased(), for: .normal)
 
         view.addSubview(button)
 
@@ -30,10 +30,21 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        for family in UIFont.familyNames.sorted() {
+            let names = UIFont.fontNames(forFamilyName: family)
+            print("Family: \(family) Font names: \(names)")
+        }
     }
 }
 
 final class CyberButton: UIButton {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
+    init() {
+        super.init(frame: .zero)
+        self.titleLabel?.textColor = .white
+        self.titleLabel?.font = UIFont(name: "BlenderPro-Heavy", size: 26.0)
+    }
 }
