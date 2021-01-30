@@ -9,6 +9,7 @@ import UIKit
 
 let kCyYellow = UIColor(red: 255.0/255.0, green: 247/255.0, blue: 0, alpha: 1)
 let kCyRed = UIColor(red: 236.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 1)
+let kCyBlue = UIColor(red: 13.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1)
 
 class ViewController: UIViewController {
     override func loadView() {
@@ -51,6 +52,11 @@ final class CyberButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.widthAnchor.constraint(greaterThanOrEqualToConstant: 250.0).isActive = true
         self.contentEdgeInsets = UIEdgeInsets(top: 32.0, left: 64.0, bottom: 32.0, right: 64.0)
+
+        self.layer.shadowColor = kCyBlue.cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 0
+        self.layer.shadowOffset = CGSize(width: 3, height: 0)
     }
 
     override func setTitle(_ title: String?, for state: UIControl.State) {
