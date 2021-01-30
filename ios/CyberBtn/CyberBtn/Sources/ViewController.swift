@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         view.backgroundColor = kCyYellow
 
         let button = CyberButton()
-        button.setTitle("Beginning_".uppercased(), for: .normal)
+        button.setTitle("Beginning_", for: .normal)
 
         view.addSubview(button)
 
@@ -46,5 +46,10 @@ final class CyberButton: UIButton {
         super.init(frame: .zero)
         self.titleLabel?.textColor = .white
         self.titleLabel?.font = UIFont(name: "BlenderPro-Heavy", size: 26.0)
+    }
+
+    override func setTitle(_ title: String?, for state: UIControl.State) {
+        let attrTitle = NSAttributedString(string: (title ?? "").uppercased(), attributes: [NSAttributedString.Key.kern: 2.0])
+        super.setAttributedTitle(attrTitle, for: state)
     }
 }
