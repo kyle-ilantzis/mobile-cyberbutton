@@ -8,6 +8,7 @@
 import UIKit
 
 let kCyYellow = UIColor(red: 255.0/255.0, green: 247/255.0, blue: 0, alpha: 1)
+let kCyRed = UIColor(red: 236.0/255.0, green: 19.0/255.0, blue: 19.0/255.0, alpha: 1)
 
 class ViewController: UIViewController {
     override func loadView() {
@@ -19,7 +20,6 @@ class ViewController: UIViewController {
 
         view.addSubview(button)
 
-        button.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -46,6 +46,11 @@ final class CyberButton: UIButton {
         super.init(frame: .zero)
         self.titleLabel?.textColor = .white
         self.titleLabel?.font = UIFont(name: "BlenderPro-Heavy", size: 26.0)
+        self.backgroundColor = kCyRed
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 250.0).isActive = true
+        self.contentEdgeInsets = UIEdgeInsets(top: 32.0, left: 64.0, bottom: 32.0, right: 64.0)
     }
 
     override func setTitle(_ title: String?, for state: UIControl.State) {
