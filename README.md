@@ -21,6 +21,12 @@ Source: See class [CyberButton](ios/CyberBtn/CyberBtn/Sources/ViewController.swi
 
 Eventually if I feel like it
 
+Resources
+https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/
+https://medium.com/androiddevelopers/playing-with-paths-3fbc679a6f77
+https://medium.com/appkode/clipping-in-android-quickly-qualitatively-cheap-3ccfd31d5d6b
+https://stackoverflow.com/questions/56607448/animating-a-clippath-from-ondraw
+
 ## LICENSE
 
 [Unlicense](LICENSE)
