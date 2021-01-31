@@ -19,20 +19,42 @@
         android:id="@+id/view2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/cyYellow40"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.35"
         app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/cyYellow40"/>
+        tools:layout_editor_absoluteY="0dp" />
 
-    <com.kyleilantzis.cyberbtn.CyberButton
-        style="@style/CyberBtn"
-        android:id="@+id/cyberBtn"
+    <FrameLayout
+        android:id="@+id/cyberBtnFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Glitched_"
-        />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.kyleilantzis.cyberbtn.CyberButton
+            style="@style/CyberBtn"
+            android:id="@+id/cyberBtn"
+            android:text="Glitched_"
+            android:layout_marginBottom="5dp"
+            />
+
+        <TextView
+            android:text="R25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="12dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="2dp"
+            android:background="@drawable/cyber_tag_background"
+            android:fontFamily="@font/blenderpro_bold"
+            android:textColor="@color/black"
+            android:textSize="9dp"
+            />
+    </FrameLayout>
 
     <com.kyleilantzis.cyberbtn.CyberButton
         style="@style/CyberBtn"
@@ -40,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cyberBtn"
+        app:layout_constraintTop_toBottomOf="@+id/cyberBtnFrame"
         android:text="Glitched_"
         app:isGlitch="true"
         android:background="@drawable/cyber_btn_glitched_background"
