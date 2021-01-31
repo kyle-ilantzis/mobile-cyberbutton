@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="cyYellow10"></color>
+    <color name="cyYellow10">#FFF700</color>
     <color name="cyYellow20"></color>
     <color name="cyYellow30">#f5ed00</color>
     <color name="cyYellow40">#e6de00</color>

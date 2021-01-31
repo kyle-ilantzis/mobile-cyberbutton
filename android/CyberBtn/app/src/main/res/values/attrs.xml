@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CyberButton">
+        <attr name="isGlitch" format="boolean" />
+    </declare-styleable>
+</resources>
