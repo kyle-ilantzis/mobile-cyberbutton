@@ -6,7 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/view2"
+        app:layout_constraintHorizontal_weight="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/cyYellow30" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintHorizontal_weight="0.35"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/cyYellow40"/>
+
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
