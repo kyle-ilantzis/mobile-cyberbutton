@@ -39,10 +39,10 @@
         android:textSize="26dp"
         android:letterSpacing="0.2"
         android:textColor="@color/white"
-        android:background="@color/cyRed"
+        android:background="@drawable/cyber_btn_background"
         android:paddingHorizontal="40dp"
         android:paddingVertical="24dp"
-        >
-    </Button>
+        android:stateListAnimator="@null"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
