@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.*
+import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +25,10 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
-
 class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widget.AppCompatButton(ctx, attrSet) {
 
-    val kMaskPathInset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10.0F, resources.displayMetrics)
-    val kInsetHorizontal = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40.0F, resources.displayMetrics)
+    val kMaskPathInset = dp(10.0F)
+    val kInsetHorizontal = dp(40.0F)
 
     val isGlitch: Boolean
     var clipPath = Path()
@@ -45,7 +44,7 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
         }
 
         if (isGlitch) {
-            val oneDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.0F, resources.displayMetrics)
+            val oneDip = dp(1.0F)
             setShadowLayer(oneDip, oneDip*2, oneDip*2, resources.getColor(R.color.cyBlue))
         }
     }
@@ -53,6 +52,11 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         clipPath = createMaskPath(measuredWidth, measuredHeight)
+        if (isGlitch) {
+            clipPath = createGlitchMaskPath1(measuredWidth, measuredHeight)
+            clipPath = createGlitchMaskPath2(measuredWidth, measuredHeight)
+            clipPath = createGlitchMaskPath3(measuredWidth, measuredHeight)
+        }
     }
 
     override fun draw(canvas: Canvas?) {
@@ -66,7 +70,7 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
             return
         }
 
-        val oneDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.0F, resources.displayMetrics)
+        val oneDip = dp(1.0F)
 
         setShadowLayer(0.25F, oneDip*2, oneDip*2, resources.getColor(R.color.cyBlue))
         super.onDraw(canvas)
@@ -88,5 +92,52 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
         path.lineTo(-kMaskPathInset, -kMaskPathInset)
 
         return path
+    }
+
+    private fun createGlitchMaskPath1(mw: Int, mh: Int): Path {
+        val width = mw.toFloat() + kMaskPathInset
+        val height = mh.toFloat() + kMaskPathInset
+
+        val path = Path()
+        path.moveTo(-kMaskPathInset, height - kInsetHorizontal*2/3)
+        path.lineTo(width, height - kInsetHorizontal*2/3)
+        path.lineTo(width, height)
+        path.lineTo(kMaskPathInset + kInsetHorizontal*2/3, height)
+        path.lineTo(-kMaskPathInset, height - kInsetHorizontal*2/3)
+
+        return path
+    }
+
+    private fun createGlitchMaskPath2(mw: Int, mh: Int): Path {
+        val width = mw.toFloat() + kMaskPathInset
+        val center = mh.toFloat()/2
+        val visibleTextHeight = dp(4.0F)
+
+        val path = Path()
+        path.moveTo(-kMaskPathInset, center - visibleTextHeight)
+        path.lineTo(width, center - visibleTextHeight)
+        path.lineTo(width, center + visibleTextHeight)
+        path.lineTo(-kMaskPathInset, center + visibleTextHeight)
+        path.lineTo(-kMaskPathInset, center - visibleTextHeight)
+        return path
+    }
+
+    private fun createGlitchMaskPath3(mw: Int, mh: Int): Path {
+        val width = mw.toFloat() + kMaskPathInset
+        val height = mh.toFloat() + kMaskPathInset
+        val center = mh.toFloat() - kInsetHorizontal
+
+        val path = Path()
+        path.moveTo(-kMaskPathInset, center)
+        path.lineTo(width, center)
+        path.lineTo(width, height)
+        path.lineTo(kMaskPathInset + kInsetHorizontal*2/3, height)
+        path.lineTo(-kMaskPathInset, height - kInsetHorizontal*3/3)
+        path.lineTo(-kMaskPathInset, center)
+        return path
+    }
+
+    private fun dp(value: Float): Float {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics)
     }
 }
