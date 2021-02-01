@@ -1,21 +1,26 @@
 package com.kyleilantzis.cyberbtn
 
+import android.animation.*
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Path
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.FrameLayout
+import androidx.core.animation.addListener
+import androidx.core.graphics.PathParser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -51,12 +56,60 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        clipPath = createMaskPath(measuredWidth, measuredHeight)
-        if (isGlitch) {
-            clipPath = createGlitchMaskPath1(measuredWidth, measuredHeight)
-            clipPath = createGlitchMaskPath2(measuredWidth, measuredHeight)
-            clipPath = createGlitchMaskPath3(measuredWidth, measuredHeight)
+
+        if (!isGlitch) {
+            clipPath = createMaskPath(measuredWidth, measuredHeight)
         }
+
+        if (isGlitch) {
+            val keyframes = PropertyValuesHolder.ofKeyframe("",
+                Keyframe.ofObject(0*1.0F/6.0F, createGlitchMaskPath1(measuredWidth, measuredHeight)),
+                Keyframe.ofObject(1*1.0F/6.0F, createGlitchMaskPath2(measuredWidth, measuredHeight)),
+                Keyframe.ofObject(2*1.0F/6.0F, createGlitchMaskPath3(measuredWidth, measuredHeight)),
+                Keyframe.ofObject(3*1.0F/6.0F, createGlitchMaskPath2(measuredWidth, measuredHeight)),
+                Keyframe.ofObject(3.3F*1.0F/6.0F, createMaskPath(measuredWidth, measuredHeight)),
+                Keyframe.ofObject(4*1.0F/6.0F, createGlitchMaskPath2(measuredWidth, measuredHeight))
+            ).apply {
+                setEvaluator { fraction, startValue, endValue -> if (fraction <= 0.5) startValue else endValue }
+            }
+
+            val animClipPath = ObjectAnimator.ofPropertyValuesHolder(this, keyframes).apply {
+                duration = 300
+                addUpdateListener {
+                    clipPath = it.animatedValue as Path
+                    postInvalidateOnAnimation()
+                }
+            }
+
+            isAnimForward = true
+            anim = AnimatorSet().apply {
+                addListener(onEnd = { onAnimEnd() })
+                playTogether(animClipPath)
+                start()
+            }
+        }
+    }
+
+    var isAnimForward: Boolean = true
+    var anim: AnimatorSet? = null
+
+    fun onAnimEnd() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (isAnimForward) {
+                isAnimForward = false
+                anim?.reverse()
+                return
+            }
+        }
+
+        clipPath = Path()
+        postInvalidate()
+
+        isAnimForward = true
+        Handler(Looper.getMainLooper()).postDelayed({
+            anim?.start()
+        }, 2000)
+
     }
 
     override fun draw(canvas: Canvas?) {
