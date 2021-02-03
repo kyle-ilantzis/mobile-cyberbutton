@@ -1,6 +1,6 @@
 # Mobile Cyberbutton
 
-A Cyberpunk77 style button on ios (and android eventually if I feel like it)
+A Cyberpunk77 style button on ios and android
 
 ## Why?
 
@@ -19,14 +19,12 @@ Source: See class [CyberButton](ios/CyberBtn/CyberBtn/Sources/ViewController.swi
 
 ## Android
 
-Eventually if I feel like it
+![android cyber button](readme/cyberbutton.android.gif)
 
-Resources
-https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/
-https://medium.com/androiddevelopers/playing-with-paths-3fbc679a6f77
-https://medium.com/appkode/clipping-in-android-quickly-qualitatively-cheap-3ccfd31d5d6b
-https://stackoverflow.com/questions/56607448/animating-a-clippath-from-ondraw
+[video](readme/cyberbutton.android.mp4)
 
+Source: See class [CyberButton](android/CyberBtn/app/src/main/java/com/kyleilantzis/cyberbtn/MainActivity.kt#L33) 
+and [layout](android/CyberBtn/app/src/main/res/layout/activity_main.xml)
 ## LICENSE
 
 [Unlicense](LICENSE)

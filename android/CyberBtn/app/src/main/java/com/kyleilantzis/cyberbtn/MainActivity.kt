@@ -62,7 +62,7 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
         }
 
         if (isGlitch) {
-            val keyframes = PropertyValuesHolder.ofKeyframe("",
+            val clipKeyframes = PropertyValuesHolder.ofKeyframe("",
                 Keyframe.ofObject(0*1.0F/6.0F, createGlitchMaskPath1(measuredWidth, measuredHeight)),
                 Keyframe.ofObject(1*1.0F/6.0F, createGlitchMaskPath2(measuredWidth, measuredHeight)),
                 Keyframe.ofObject(2*1.0F/6.0F, createGlitchMaskPath3(measuredWidth, measuredHeight)),
@@ -73,7 +73,7 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
                 setEvaluator { fraction, startValue, endValue -> if (fraction <= 0.5) startValue else endValue }
             }
 
-            val animClipPath = ObjectAnimator.ofPropertyValuesHolder(this, keyframes).apply {
+            val animClipPath = ObjectAnimator.ofPropertyValuesHolder(this, clipKeyframes).apply {
                 duration = 300
                 addUpdateListener {
                     clipPath = it.animatedValue as Path
@@ -81,10 +81,21 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
                 }
             }
 
+            val posXKeyframes = PropertyValuesHolder.ofKeyframe("translationX",
+                    Keyframe.ofFloat(0.0F, -4.0F),
+                    Keyframe.ofFloat(0.33F, -8.0F),
+                    Keyframe.ofFloat(0.66F, -4.0F)
+            )
+
+            val animPosX = ObjectAnimator.ofPropertyValuesHolder(this, posXKeyframes).apply {
+                duration = 300
+                addListener(onStart = { this@CyberButton.translationY = -4.0F })
+            }
+
             isAnimForward = true
             anim = AnimatorSet().apply {
                 addListener(onEnd = { onAnimEnd() })
-                playTogether(animClipPath)
+                playTogether(animClipPath, animPosX)
                 start()
             }
         }
