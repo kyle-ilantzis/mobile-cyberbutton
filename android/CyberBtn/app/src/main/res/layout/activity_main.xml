@@ -29,6 +29,8 @@
         android:id="@+id/cyberBtnFrame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -47,8 +49,6 @@
             android:text="Glitched_"
             app:isGlitch="true"
             android:background="@drawable/cyber_btn_glitched_background"
-            android:paddingBottom="27dp"
-            android:paddingLeft="43dp"
             />
 
         <TextView

@@ -82,14 +82,14 @@ class CyberButton(ctx: Context, attrSet: AttributeSet): androidx.appcompat.widge
             }
 
             val posXKeyframes = PropertyValuesHolder.ofKeyframe("translationX",
-                    Keyframe.ofFloat(0.0F, -4.0F),
-                    Keyframe.ofFloat(0.33F, -8.0F),
-                    Keyframe.ofFloat(0.66F, -4.0F)
+                    Keyframe.ofFloat(0.0F, dp(-4.0F)),
+                    Keyframe.ofFloat(0.33F, dp(-8.0F)),
+                    Keyframe.ofFloat(0.66F, dp(4.0F))
             )
 
             val animPosX = ObjectAnimator.ofPropertyValuesHolder(this, posXKeyframes).apply {
                 duration = 300
-                addListener(onStart = { this@CyberButton.translationY = -4.0F })
+                addListener(onStart = { this@CyberButton.translationY = dp(-1.0F) })
             }
 
             isAnimForward = true
